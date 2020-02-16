@@ -63,11 +63,17 @@ public class GenreDAO extends DAO<Genre> {
     public List<Genre> read() throws SQLException {
         return read("select * from tbl_genre", null);
     }
+    
+    public Genre readById(int genreId) throws SQLException{
+    	List<Genre> genre = read("select * from tbl_genre where genre_id = ?", new Object[] {genreId});
+    	return genre.get(0);
+    }
 
     public List<Genre> readBookGenre(int bookId) throws SQLException {
         return readEssential("select genre_name, tg.genre_id as genre_id from tbl_genre as tg " +
                 "join tbl_book_genres as tbg on tg.genre_id = tbg.genre_id " +
                 "where bookId= ?",new Object[]{bookId});
     }
+
 
 }

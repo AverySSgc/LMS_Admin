@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.SS.library</groupId>
-	<artifactId>LMS_Admin</artifactId>
+	<artifactId>LMSAdmin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>LMS_Admin</name>
+	<name>LMSAdmin</name>
 	<description>Admin Micro Services for LMS</description>
 
 	<properties>
@@ -23,14 +23,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		
-
-		<dependency>
-		    <groupId>org.mockito</groupId>
-		    <artifactId>mockito-junit-jupiter</artifactId>
-		    <version>2.23.4</version>
-		    <scope>test</scope>
 		</dependency>
 		
 

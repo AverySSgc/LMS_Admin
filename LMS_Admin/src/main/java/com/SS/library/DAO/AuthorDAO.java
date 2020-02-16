@@ -63,7 +63,11 @@ public class AuthorDAO extends DAO <Author> {
     }
 
     public void addToBookAuthor(Author author, Book book) throws SQLException {
-        save("Insert into tbl_book_authors (bookId, AuthorId) values (?,?)", new Object[]{book.getBookId(),author.getAuthorID()});
+        save("Insert into tbl_book_authors (bookId, authorId) values (?,?)", new Object[]{book.getBookId(),author.getAuthorID()});
+    }
+    
+    public void deleteBookAuthor(Author author, Book book) throws SQLException {
+    	save("delete from tbl_book_authors where authorId = ? and bookId = ?", new Object[] {author.getAuthorID(),book.getBookId()});
     }
 
     public Author readByID(int id) throws SQLException{

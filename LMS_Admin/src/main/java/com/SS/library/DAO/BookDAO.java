@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.SS.library.Entity.Author;
 import com.SS.library.Entity.Book;
@@ -17,6 +18,7 @@ import com.SS.library.Entity.Book;
  * @author acorb
  *
  */
+@Component
 public class BookDAO extends DAO<Book> {
 	@Autowired
 	PublisherDAO pdao;
