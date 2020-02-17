@@ -1,6 +1,6 @@
 package com.SS.library.DAO;
 
-import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,15 +13,12 @@ import com.SS.library.Utility.ConnectUtil;
 public abstract class DAO <T> {
 	
 	@Autowired
-	static
 	ConnectUtil conUtil;
 
-	public DAO() {conn =conUtil.getConnection();}
-    protected static Connection conn;
    
 
     protected void save(String sql, Object[] vals) throws SQLException {
-        PreparedStatement  pstmt = conn.prepareStatement(sql);
+        PreparedStatement  pstmt = conUtil.getConnection().prepareStatement(sql);
         if(vals!=null){
             int index = 1;
             for(Object o : vals){
@@ -33,7 +30,7 @@ public abstract class DAO <T> {
     }
 
     protected Integer saveRecieveKey(String sql, Object[] vals) throws SQLException {
-        PreparedStatement  pstmt = conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+        PreparedStatement  pstmt = conUtil.getConnection().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
         if(vals!=null){
             int index = 1;
             for(Object o : vals){
@@ -50,7 +47,7 @@ public abstract class DAO <T> {
     }
 
     protected List<T> read(String sql, Object[] vals) throws SQLException {
-        PreparedStatement pstmt = conn.prepareStatement(sql);
+        PreparedStatement pstmt = conUtil.getConnection().prepareStatement(sql);
         if (vals!=null) {
             int index = 1;
             for(Object o : vals) {
@@ -62,7 +59,7 @@ public abstract class DAO <T> {
         return extractData(rs);
     }
     protected List<T> readEssential(String sql, Object[] vals) throws SQLException {
-        PreparedStatement pstmt = conn.prepareStatement(sql);
+        PreparedStatement pstmt = conUtil.getConnection().prepareStatement(sql);
         if (vals!=null) {
             int index = 1;
             for(Object o : vals) {

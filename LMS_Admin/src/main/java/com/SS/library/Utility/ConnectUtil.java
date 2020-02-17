@@ -18,7 +18,7 @@ public class ConnectUtil {
     public ConnectUtil() throws SQLException, ClassNotFoundException {
         Class.forName(driver);
         conn = DriverManager.getConnection(url,username,password);
-        conn.setAutoCommit(false);
+//        conn.setAutoCommit(false);
     }
 
 //    public static ConnectUtil getInstance() throws SQLException, ClassNotFoundException {
