@@ -101,6 +101,9 @@ public class BookDAO extends DAO<Book> {
     public void addToBookAuthor(Author author, Book book) throws SQLException {
         save("insert into tbl_book_authors (bookId, AuthorId) values (?,?)", new Object[]{book.getBookId(),author.getAuthorID()});
     }
+    public void deleteFromBookAuthor(int authorId, int bookId) throws SQLException {
+    	save("delete from tbl_book_authors where bookId = ? and authorId = ?", new Object[] {bookId , authorId});
+    }
 
     public List<Book> readBookAuthorByAuthorId(int authorId) throws SQLException {
         return readEssential("select tb.bookId as bookId, title, pubId from tbl_book_authors as tba " +
@@ -112,6 +115,9 @@ public class BookDAO extends DAO<Book> {
         return readEssential("select  tb.bookId as bookId, tb.title, tb.pubId  from tbl_book as tb " +
                 "join tbl_book_genres as tbg on tb.bookId = tbg.bookId " +
                 "where genre_id = ?", new Object[]{genreId});
+    }
+    public void deleteFromGenreBook(int genreId, int bookId) throws SQLException{
+    	save("delete from tbl_book_genres where genre_id =? and bookId = ?", new Object[] {genreId,bookId});
     }
     
     public void addToBookGenres(Book book, Genre genre) throws SQLException {
