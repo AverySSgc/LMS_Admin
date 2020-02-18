@@ -13,6 +13,7 @@ import com.SS.library.DAO.BookDAO;
 import com.SS.library.DAO.GenreDAO;
 import com.SS.library.Entity.Book;
 import com.SS.library.Entity.Genre;
+import com.SS.library.Utility.ConnectUtil;
 
 /**
  * @author acorb
@@ -24,9 +25,12 @@ public class GenreService {
 	GenreDAO gDao;
 	@Autowired
 	BookDAO bDao;
+	@Autowired
+	ConnectUtil util;
 	
 	public void addGenre(Genre genre) throws SQLException {
 		genre.setGenreID(gDao.add(genre));
+		util.getConnection().commit();
 	}
 	
 	public List<Genre> readAllGenre() throws SQLException{
@@ -39,9 +43,11 @@ public class GenreService {
 	
 	public void updateGenre(Genre genre) throws SQLException {
 		gDao.update(genre);
+		util.getConnection().commit();
 	}
 	public void deleteGenre(Genre genre) throws SQLException {
 		gDao.delete(genre);
+		util.getConnection().commit();
 	}
 	public List<Book> readBooksByGenre(Genre genre) throws SQLException{
 		return bDao.readBookGenreByBookId(genre.getGenreID());

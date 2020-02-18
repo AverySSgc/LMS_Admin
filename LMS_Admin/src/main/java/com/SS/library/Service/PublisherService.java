@@ -10,6 +10,7 @@ import com.SS.library.DAO.BookDAO;
 import com.SS.library.DAO.PublisherDAO;
 import com.SS.library.Entity.Book;
 import com.SS.library.Entity.Publisher;
+import com.SS.library.Utility.ConnectUtil;
 
 @Component
 public class PublisherService {
@@ -17,9 +18,13 @@ public class PublisherService {
 	PublisherDAO pDao;
 	@Autowired 
 	BookDAO bDao;
+	@Autowired
+	ConnectUtil util;
 	
 	public void addPublisher(Publisher publisher) throws SQLException {
 		publisher.setPublisherId(pDao.add(publisher));
+		util.getConnection().commit();
+		
 	}
 	public List<Publisher> readAllPublisher() throws SQLException{
 		return pDao.read();
@@ -29,9 +34,11 @@ public class PublisherService {
 	}
 	public void updatePublisher(Publisher publisher)throws SQLException{
 		pDao.update(publisher);
+		util.getConnection().commit();
 	}
 	public void deletePublisher(Publisher publisher)throws SQLException{
 		pDao.delete(publisher);
+		util.getConnection().commit();
 	}
 	public List<Book> readBookByPublisher(int publisherId)throws SQLException{
 		return bDao.readByPubId(publisherId);
