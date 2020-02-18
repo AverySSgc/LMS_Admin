@@ -30,10 +30,10 @@ public class PublisherService {
 	public void updatePublisher(Publisher publisher)throws SQLException{
 		pDao.update(publisher);
 	}
-	public void deletePublisehr(Publisher publisher)throws SQLException{
+	public void deletePublisher(Publisher publisher)throws SQLException{
 		pDao.delete(publisher);
 	}
-	public List<Book> readBookByPublisher(Publisher publisher)throws SQLException{
-		return bDao.readByPubId(publisher.getPublisherId());
+	public List<Book> readBookByPublisher(int publisherId)throws SQLException{
+		return bDao.readByPubId(publisherId);
 	}
 }

@@ -6,11 +6,9 @@ package com.SS.library.Controller;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +40,7 @@ public class AuthorController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/authors", method = {RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
+	@RequestMapping(path = "**/Admin/authors", method = {RequestMethod.DELETE, RequestMethod.PUT})
 	public ResponseEntity<String> authorMethodNotAllowed() {
 		return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
 	}
@@ -57,7 +55,7 @@ public class AuthorController {
 			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
 		}
 	}
-	@RequestMapping(path = "**/Admin/authors/{authorId}", method = RequestMethod.POST)
+	@RequestMapping(path = {"**/Admin/authors/{authorId}","**Admin/authors"} , method = RequestMethod.POST)
 	public ResponseEntity<Author> addAuthor(@RequestBody Author author){
 		try {
 			authorService.addAuthor(author);
@@ -85,7 +83,7 @@ public class AuthorController {
 			return new ResponseEntity<Author>(author,HttpStatus.OK);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			return new ResponseEntity<Author>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
 		}
 	}
 	
