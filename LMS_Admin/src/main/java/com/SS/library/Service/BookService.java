@@ -18,6 +18,7 @@ import com.SS.library.Entity.Author;
 import com.SS.library.Entity.Book;
 import com.SS.library.Entity.Genre;
 import com.SS.library.Entity.Publisher;
+import com.SS.library.Utility.ConnectUtil;
 
 /**
  * @author acorb
@@ -34,23 +35,25 @@ public class BookService {
 	PublisherDAO pDao;
 	@Autowired
 	AuthorDAO aDao;
+	@Autowired
+	ConnectUtil util;
 	
 	public void addBook(Book book) throws SQLException {
-		if(book.getGenres().size()!=0 && book.getAuthors().size()!=0) {
+		if(book.getGenres().size()!=0 && book.getAuthors().size()!=0 && book.getGenres().size()!=0) {
 			book.setBookId(bDao.add(book));
 			book.getAuthors().forEach(a->{try {
 				bDao.addToBookAuthor(a, book);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				throw new RuntimeException(e);
+				// TODO Auto-generated catch bloc
 			}});
 			book.getGenres().forEach(g->{try {
 				bDao.addToBookGenres(book, g);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 //				throw new Exception();
-			}});
+			}});	
 		}
+		util.getConnection().commit();
 	}
 	
 	public List<Book> readAllBooks() throws SQLException{
@@ -63,10 +66,12 @@ public class BookService {
 	
 	public void updateBook(Book book) throws SQLException {
 		bDao.update(book);
+		util.getConnection().commit();
 	}
 	
 	public void deleteBook(Book book) throws SQLException {
 		bDao.delete(book);
+		util.getConnection().commit();
 	}
 	
 	public List<Genre> readGenresByBook(Book book) throws SQLException{
@@ -74,9 +79,11 @@ public class BookService {
 	}
 	public void addToBookGenre(Book book, Genre genre) throws SQLException {
 		bDao.addToBookGenres(book, genre);
+		util.getConnection().commit();
 	}
 	public void deleteFromBookGenre(Book book, Genre genre) throws SQLException {
 		bDao.deleteFromGenreBook(genre.getGenreID(), book.getBookId());
+		util.getConnection().commit();
 	}
 	
 	public Publisher readPublisherByBook (int bookId) throws SQLException{
@@ -88,9 +95,11 @@ public class BookService {
 	}
 	public void addToBookAuthor(Book book, Author author) throws SQLException {
 		bDao.addToBookAuthor(author, book);
+		util.getConnection().commit();
 	}
 	public void deleteFomAuthorBook(Book book, Author author) throws SQLException {
 		bDao.deleteFromBookAuthor(author.getAuthorID(), book.getBookId());
+		util.getConnection().commit();
 	}
 	
 	
