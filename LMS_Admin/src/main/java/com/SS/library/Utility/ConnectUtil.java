@@ -12,14 +12,14 @@ public class ConnectUtil {
     private String url = "jdbc:mysql://localhost:3306/library";
     private String username = "root";
     private String password = "password";
-    private Connection conn =null;
+//    private Connection conn =null;
 //    private static ConnectUtil instance;
 
-    public ConnectUtil() throws SQLException, ClassNotFoundException {
-        Class.forName(driver);
-        conn = DriverManager.getConnection(url,username,password);
-        conn.setAutoCommit(false);
-    }
+//    public ConnectUtil() throws SQLException, ClassNotFoundException {
+//        Class.forName(driver);
+//        Connection conn = DriverManager.getConnection(url,username,password);
+//        conn.setAutoCommit(false);
+//    }
 
 //    public static ConnectUtil getInstance() throws SQLException, ClassNotFoundException {
 //        if(instance==null){
@@ -28,7 +28,12 @@ public class ConnectUtil {
 //        return instance;
 //    }
 
-    public Connection getConnection() {return conn;}
+    public Connection getConnection() throws ClassNotFoundException, SQLException {
+        Class.forName(driver);
+        Connection conn = DriverManager.getConnection(url,username,password);
+        conn.setAutoCommit(false);
+        return conn;
+    }
 
 //    public void deConsruct() throws SQLException {
 //        if(instance!=null) {

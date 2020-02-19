@@ -34,7 +34,7 @@ public class AuthorController {
 		try {
 			List <Author> authors = authorService.readAllAuthors();
 			return new ResponseEntity<List<Author>>(authors,HttpStatus.OK);
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<List<Author>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -53,6 +53,9 @@ public class AuthorController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Author>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	@RequestMapping(path = {"/Admin/authors"} , method = RequestMethod.POST)
@@ -63,6 +66,9 @@ public class AuthorController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Author>(HttpStatus.CONFLICT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Author>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	@RequestMapping(path = "/Admin/authors/{authorId}", method = RequestMethod.PUT)
@@ -73,6 +79,9 @@ public class AuthorController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Author>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -84,6 +93,9 @@ public class AuthorController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Author>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -94,24 +106,33 @@ public class AuthorController {
 			return new ResponseEntity<List<Book>>(books,HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<List<Book>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	@RequestMapping(path="/Admin/authors/{authorId}/Books/{bookId}", method = {RequestMethod.POST,RequestMethod.PUT})
-	public ResponseEntity<List<Object>>addToBookAuthor(@RequestBody Author author, @RequestBody Book book){
+	public ResponseEntity<Object>addToBookAuthor(@RequestBody Author author, @RequestBody Book book){
 		try {
 			authorService.addBookToAuthor(author, book);
-			return new ResponseEntity<List<Object>>(HttpStatus.ACCEPTED);
+			return new ResponseEntity<Object>(book,HttpStatus.ACCEPTED);
 		}catch(SQLException e) {
-			return new ResponseEntity<List<Object>>(HttpStatus.CONFLICT);
+			return new ResponseEntity<Object>(HttpStatus.CONFLICT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	@RequestMapping(path="/Admin/authors/{authorId}/Books/{bookId}", method = {RequestMethod.DELETE})
-	public ResponseEntity<List<Object>>deleteBookAuthor(@RequestBody Author author, @RequestBody Book book){
+	public ResponseEntity<Object>deleteBookAuthor(@RequestBody Author author, @RequestBody Book book){
 		try {
 			authorService.deleteBookFromAuthor(author, book);
-			return new ResponseEntity<List<Object>>(HttpStatus.OK);
+			return new ResponseEntity<Object>(book,HttpStatus.OK);
 		}catch(SQLException e) {
-			return new ResponseEntity<List<Object>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 		}
 	}
 }

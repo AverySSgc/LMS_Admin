@@ -10,17 +10,17 @@ import org.junit.jupiter.api.Test;
 
 class ConnectUtilTest {
 
-	@Test
-	void test() {	
-		ConnectUtil connectUtil;
-		try {
-			connectUtil = new ConnectUtil();
-			assertNotNull(connectUtil);	
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			fail();
-		}	
-	}
+//	@Test
+//	void test() {	
+//		ConnectUtil connectUtil;
+//		try {
+//			connectUtil = new ConnectUtil();
+//			assertNotNull(connectUtil);	
+//		} catch (ClassNotFoundException | SQLException e) {
+//			// TODO Auto-generated catch block
+//			fail();
+//		}	
+//	}
 
 	@Test
 	void testGetConnection() {

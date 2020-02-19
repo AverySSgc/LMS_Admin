@@ -1,5 +1,6 @@
 package com.SS.library.Service;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -21,26 +22,41 @@ public class PublisherService {
 	@Autowired
 	ConnectUtil util;
 	
-	public void addPublisher(Publisher publisher) throws SQLException {
-		publisher.setPublisherId(pDao.add(publisher));
-		util.getConnection().commit();
+	public void addPublisher(Publisher publisher) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		publisher.setPublisherId(pDao.add(publisher,conn ));
+		conn.commit();
+		conn.close();
 		
 	}
-	public List<Publisher> readAllPublisher() throws SQLException{
-		return pDao.read();
+	public List<Publisher> readAllPublisher() throws SQLException, ClassNotFoundException{
+		Connection conn = util.getConnection();
+		List<Publisher> p = pDao.read(conn);
+		conn.close();
+		return p;
 	}
-	public Publisher readPublisherById(int publisher)throws SQLException{
-		return pDao.readByID(publisher);
+	public Publisher readPublisherById(int publisher)throws SQLException, ClassNotFoundException{
+		Connection conn = util.getConnection();
+		Publisher p = pDao.readByID(publisher,conn );
+		conn.close();
+		return p;
 	}
-	public void updatePublisher(Publisher publisher)throws SQLException{
-		pDao.update(publisher);
-		util.getConnection().commit();
+	public void updatePublisher(Publisher publisher)throws SQLException, ClassNotFoundException{
+		Connection conn = util.getConnection();
+		pDao.update(publisher,conn);
+		conn.commit();
+		conn.close();
 	}
-	public void deletePublisher(Publisher publisher)throws SQLException{
-		pDao.delete(publisher);
-		util.getConnection().commit();
+	public void deletePublisher(Publisher publisher)throws SQLException, ClassNotFoundException{
+		Connection conn = util.getConnection();
+		pDao.delete(publisher,conn );
+		conn.commit();
+		conn.close();
 	}
-	public List<Book> readBookByPublisher(int publisherId)throws SQLException{
-		return bDao.readByPubId(publisherId);
+	public List<Book> readBookByPublisher(int publisherId)throws SQLException, ClassNotFoundException{
+		Connection conn = util.getConnection();
+		List<Book> b =bDao.readByPubId(publisherId,conn);
+		conn.close();
+		return b;
 	}
 }

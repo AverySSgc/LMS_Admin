@@ -3,6 +3,7 @@
  */
 package com.SS.library.Service;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -28,29 +29,44 @@ public class GenreService {
 	@Autowired
 	ConnectUtil util;
 	
-	public void addGenre(Genre genre) throws SQLException {
-		genre.setGenreID(gDao.add(genre));
-		util.getConnection().commit();
+	public void addGenre(Genre genre) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		genre.setGenreID(gDao.add(genre,conn));
+		conn.commit();
+		conn.close();
 	}
 	
-	public List<Genre> readAllGenre() throws SQLException{
-		return gDao.read();
+	public List<Genre> readAllGenre() throws SQLException, ClassNotFoundException{
+		Connection conn = util.getConnection();
+		List<Genre> g = gDao.read(conn);
+		conn.close();
+		return g;
 	}
 	
-	public Genre readByGenreID(int genreId) throws SQLException {
-		return gDao.readById(genreId);
+	public Genre readByGenreID(int genreId) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		Genre g = gDao.readById(genreId,conn);
+		conn.close();
+		return g;
 	}
 	
-	public void updateGenre(Genre genre) throws SQLException {
-		gDao.update(genre);
-		util.getConnection().commit();
+	public void updateGenre(Genre genre) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		gDao.update(genre,conn);
+		conn.commit();
+		conn.close();
 	}
-	public void deleteGenre(Genre genre) throws SQLException {
-		gDao.delete(genre);
-		util.getConnection().commit();
+	public void deleteGenre(Genre genre) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		gDao.delete(genre,conn);
+		conn.commit();
+		conn.close();
 	}
-	public List<Book> readBooksByGenre(Genre genre) throws SQLException{
-		return bDao.readBookGenreByBookId(genre.getGenreID());
+	public List<Book> readBooksByGenre(Genre genre) throws SQLException, ClassNotFoundException{
+		Connection conn = util.getConnection();
+		List<Book> b = bDao.readBookGenreByBookId(genre.getGenreID(),conn);
+		conn.close();
+		return b;
 	}
 	
 }

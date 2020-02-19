@@ -38,7 +38,7 @@ public class BookController {
 		try {
 			List <Book> books = bookService.readAllBooks();
 			return new ResponseEntity<List<Book>>(books,HttpStatus.OK);
-		}catch(SQLException e) {
+		}catch(SQLException | ClassNotFoundException e) {
 			return new ResponseEntity<List<Book>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -55,6 +55,9 @@ public class BookController {
 			return new ResponseEntity<Book>(book,HttpStatus.OK);
 		}catch (SQLException e) {
 			return new ResponseEntity<Book>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -65,6 +68,9 @@ public class BookController {
 			return new ResponseEntity<Book>(book,HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<Book>(book,HttpStatus.CONFLICT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -75,6 +81,9 @@ public class BookController {
 			return new ResponseEntity<Book>(book,HttpStatus.ACCEPTED);
 		}catch (SQLException e) {
 			return new ResponseEntity<Book>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	@RequestMapping(path = "/Admin/books/{bookId}", method = RequestMethod.DELETE)
@@ -84,6 +93,9 @@ public class BookController {
 			return new ResponseEntity<Book>(book,HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<Book>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -94,6 +106,8 @@ public class BookController {
 			return new ResponseEntity<List<Genre>>(genres,HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<List<Genre>>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			return new ResponseEntity<List<Genre>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -104,6 +118,8 @@ public class BookController {
 			return new ResponseEntity<Genre>(genre,HttpStatus.ACCEPTED);
 		}catch (SQLException e) {
 			return new ResponseEntity<Genre>(HttpStatus.CONFLICT);
+		} catch (ClassNotFoundException e) {
+			return new ResponseEntity<Genre>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -114,6 +130,8 @@ public class BookController {
 			return new ResponseEntity<Genre>(genre, HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<Genre>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			return new ResponseEntity<Genre>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -124,6 +142,8 @@ public class BookController {
 			return new ResponseEntity<List<Author>>(authors,HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<List<Author>>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			return new ResponseEntity<List<Author>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -134,6 +154,8 @@ public class BookController {
 			return new ResponseEntity<Author>(author,HttpStatus.ACCEPTED);
 		}catch (SQLException e) {
 			return new ResponseEntity<Author>(HttpStatus.CONFLICT);
+		} catch (ClassNotFoundException e) {
+			return new ResponseEntity<Author>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -144,6 +166,9 @@ public class BookController {
 			return new ResponseEntity<Author>(author, HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Author>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -154,6 +179,8 @@ public class BookController {
 			return new ResponseEntity<Publisher>(publisher , HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<Publisher>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			return new ResponseEntity<Publisher>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -165,6 +192,8 @@ public class BookController {
 			return new ResponseEntity<Book>(book, HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<Book>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

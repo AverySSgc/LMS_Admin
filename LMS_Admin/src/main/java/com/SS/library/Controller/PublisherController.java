@@ -34,7 +34,7 @@ public class PublisherController {
 		try {
 			List<Publisher> publishers = publisherService.readAllPublisher();
 			return new ResponseEntity<List<Publisher>>(publishers,HttpStatus.OK);
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<List<Publisher>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -53,6 +53,9 @@ public class PublisherController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Publisher> (HttpStatus.CONFLICT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Publisher> (HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -64,6 +67,9 @@ public class PublisherController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Publisher> (HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Publisher> (HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -75,6 +81,9 @@ public class PublisherController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Publisher> (HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Publisher> (HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -86,6 +95,9 @@ public class PublisherController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Publisher> (HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Publisher> (HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -97,6 +109,9 @@ public class PublisherController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<List<Book>> (HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
