@@ -29,7 +29,7 @@ public class AuthorController {
 	@Autowired
 	AuthorService authorService;
 	
-	@RequestMapping(path = "**/Admin/authors", method = RequestMethod.GET)
+	@RequestMapping(path = "/Admin/authors", method = RequestMethod.GET)
 	public ResponseEntity<List<Author>> getAuthors(){
 		try {
 			List <Author> authors = authorService.readAllAuthors();
@@ -40,12 +40,12 @@ public class AuthorController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/authors", method = {RequestMethod.DELETE, RequestMethod.PUT})
+	@RequestMapping(path = "/Admin/authors", method = {RequestMethod.DELETE, RequestMethod.PUT})
 	public ResponseEntity<String> authorMethodNotAllowed() {
 		return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
 	}
 	
-	@RequestMapping(path = "**/Admin/authors/{authorId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/Admin/authors/{authorId}", method = RequestMethod.GET)
 	public ResponseEntity<Author> getAuthor(@PathVariable int authorId){
 		try {
 			Author author = authorService.readAuthorAtId(authorId);
@@ -55,7 +55,7 @@ public class AuthorController {
 			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
 		}
 	}
-	@RequestMapping(path = {"**/Admin/authors/{authorId}","**Admin/authors"} , method = RequestMethod.POST)
+	@RequestMapping(path = {"/Admin/authors"} , method = RequestMethod.POST)
 	public ResponseEntity<Author> addAuthor(@RequestBody Author author){
 		try {
 			authorService.addAuthor(author);
@@ -65,7 +65,7 @@ public class AuthorController {
 			return new ResponseEntity<Author>(HttpStatus.CONFLICT);
 		}
 	}
-	@RequestMapping(path = "**/Admin/authors/{authorId}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/Admin/authors/{authorId}", method = RequestMethod.PUT)
 	public ResponseEntity<Author> updateAuthor(@RequestBody Author author){
 		try {
 			authorService.updateAuthor(author);
@@ -76,7 +76,7 @@ public class AuthorController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/authors/{authorId}", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/Admin/authors/{authorId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Author> deleteAuthor(@RequestBody Author author){
 		try {
 			authorService.deleteAuthor(author);
@@ -87,7 +87,7 @@ public class AuthorController {
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/authors/{authorId}/Books")
+	@RequestMapping(path="/Admin/authors/{authorId}/Books")
 	public ResponseEntity<List<Book>>readBooksByAuthor(@RequestBody Author author){
 		try {
 			List <Book> books = authorService.readBookAuthorByAuthor(author);
@@ -96,7 +96,7 @@ public class AuthorController {
 			return new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
 		}
 	}
-	@RequestMapping(path="**/Admin/authors/{authorId}/Books/{bookId}", method = {RequestMethod.POST,RequestMethod.PUT})
+	@RequestMapping(path="/Admin/authors/{authorId}/Books/{bookId}", method = {RequestMethod.POST,RequestMethod.PUT})
 	public ResponseEntity<List<Object>>addToBookAuthor(@RequestBody Author author, @RequestBody Book book){
 		try {
 			authorService.addBookToAuthor(author, book);
@@ -105,7 +105,7 @@ public class AuthorController {
 			return new ResponseEntity<List<Object>>(HttpStatus.CONFLICT);
 		}
 	}
-	@RequestMapping(path="**/Admin/authors/{authorId}/Books/{bookId}", method = {RequestMethod.DELETE})
+	@RequestMapping(path="/Admin/authors/{authorId}/Books/{bookId}", method = {RequestMethod.DELETE})
 	public ResponseEntity<List<Object>>deleteBookAuthor(@RequestBody Author author, @RequestBody Book book){
 		try {
 			authorService.deleteBookFromAuthor(author, book);

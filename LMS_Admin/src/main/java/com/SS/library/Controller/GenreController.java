@@ -22,7 +22,7 @@ public class GenreController {
 	@Autowired
 	GenreService genreService;
 	
-	@RequestMapping(path = "**/Admin/genres", method = RequestMethod.GET)
+	@RequestMapping(path = "/Admin/genres", method = RequestMethod.GET)
 	public ResponseEntity<List<Genre>> getgenres(){
 		try {
 			List <Genre> genres = genreService.readAllGenre();
@@ -33,12 +33,12 @@ public class GenreController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/genres", method = {RequestMethod.DELETE, RequestMethod.PUT})
+	@RequestMapping(path = "/Admin/genres", method = {RequestMethod.DELETE, RequestMethod.PUT})
 	public ResponseEntity<String> genreMethodNotAllowed() {
 		return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
 	}
 	
-	@RequestMapping(path = "**/Admin/genres/{genreId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/Admin/genres/{genreId}", method = RequestMethod.GET)
 	public ResponseEntity<Genre> getgenre(@PathVariable int genreId){
 		try {
 			Genre genre = genreService.readByGenreID(genreId);
@@ -48,7 +48,7 @@ public class GenreController {
 			return new ResponseEntity<Genre>(HttpStatus.NO_CONTENT);
 		}
 	}
-	@RequestMapping(path = {"**/Admin/genres/{genreId}","**/Admin/genres"} , method = RequestMethod.POST)
+	@RequestMapping(path = {"/Admin/genres"} , method = RequestMethod.POST)
 	public ResponseEntity<Genre> addgenre(@RequestBody Genre genre){
 		try {
 			genreService.addGenre(genre);
@@ -58,7 +58,7 @@ public class GenreController {
 			return new ResponseEntity<Genre>(HttpStatus.CONFLICT);
 		}
 	}
-	@RequestMapping(path = "**/Admin/genres/{genreId}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/Admin/genres/{genreId}", method = RequestMethod.PUT)
 	public ResponseEntity<Genre> updategenre(@RequestBody Genre genre){
 		try {
 			genreService.updateGenre(genre);
@@ -69,7 +69,7 @@ public class GenreController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/genres/{genreId}", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/Admin/genres/{genreId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Genre> deletegenre(@RequestBody Genre genre){
 		try {
 			genreService.deleteGenre(genre);
@@ -80,7 +80,7 @@ public class GenreController {
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/genres/{genreId}/books")
+	@RequestMapping(path="/Admin/genres/{genreId}/books")
 	public ResponseEntity<List<Book>>readBooksBygenre(@RequestBody Genre genre){
 		try {
 			List <Book> books = genreService.readBooksByGenre(genre);

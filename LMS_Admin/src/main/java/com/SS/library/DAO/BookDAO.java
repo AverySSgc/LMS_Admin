@@ -37,7 +37,9 @@ public class BookDAO extends DAO<Book> {
             b.setTitle(rs.getString("title"));
             //set publisher
 //            PublisherDAO pdao = new PublisherDAO(conn);
-            b.setPublisher(pdao.readByIdEssentialData(rs.getInt("pubId")));
+            try {
+            	b.setPublisher(pdao.readByIdEssentialData(rs.getInt("pubId")));
+            }catch(SQLException e) {}
 ////            //set author list
 //            AuthorDAO adao = new AuthorDAO(conn);
             b.setAuthors(adao.readBookAuthorByBookId(b.getBookId()));
@@ -58,7 +60,9 @@ public class BookDAO extends DAO<Book> {
             b.setTitle(rs.getString("title"));
             //set publisher
 //            PublisherDAO pdao = new PublisherDAO(conn);
+            try {
             b.setPublisher(pdao.readByIdEssentialData(rs.getInt("pubID")));
+            }catch(SQLException e) {}
 //          //set genre list
 //          GenreDAO gdao = new GenreDAO(conn);
             b.setGenres(gdao.readBookGenre(b.getBookId()));

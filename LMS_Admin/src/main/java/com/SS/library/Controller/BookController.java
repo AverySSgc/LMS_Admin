@@ -33,7 +33,7 @@ public class BookController {
 	@Autowired
 	PublisherService publisherService;
 	
-	@RequestMapping(path = "**/Admin/books", method = RequestMethod.GET)
+	@RequestMapping(path = "/Admin/books", method = RequestMethod.GET)
 	public ResponseEntity<List<Book>>getBooks(){
 		try {
 			List <Book> books = bookService.readAllBooks();
@@ -43,12 +43,12 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/books", method = {RequestMethod.DELETE, RequestMethod.PUT})
+	@RequestMapping(path = "/Admin/books", method = {RequestMethod.DELETE, RequestMethod.PUT})
 	public ResponseEntity<String> authorMethodNotAllowed() {
 		return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
 	}
 	
-	@RequestMapping(path = "**/Admin/books/{bookId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/Admin/books/{bookId}", method = RequestMethod.GET)
 	public ResponseEntity<Book> getBook(@PathVariable int bookId){
 		try {
 			Book book = bookService.readBookById(bookId);
@@ -58,7 +58,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = {"**/Admin/books/{bookId}", "**/Admin/books"}, method = RequestMethod.POST)
+	@RequestMapping(path = {"/Admin/books"}, method = RequestMethod.POST)
 	public ResponseEntity<Book> addBook(@RequestBody Book book){
 		try {
 			bookService.addBook(book);
@@ -68,7 +68,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/books/{bookId}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/Admin/books/{bookId}", method = RequestMethod.PUT)
 	public ResponseEntity<Book> updateBook(@RequestBody Book book){
 		try {
 			bookService.updateBook(book);
@@ -77,7 +77,7 @@ public class BookController {
 			return new ResponseEntity<Book>(HttpStatus.NO_CONTENT);
 		}
 	}
-	@RequestMapping(path = "**/Admin/books/{bookId}", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/Admin/books/{bookId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Book> deleteBook(@RequestBody Book book){
 		try {
 			bookService.deleteBook(book);
@@ -87,7 +87,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/books/{bookId}/genres", method = RequestMethod.GET)
+	@RequestMapping(path = "/Admin/books/{bookId}/genres", method = RequestMethod.GET)
 	public ResponseEntity<List<Genre>> readGenresByBook(@RequestBody Book book){
 		try {
 			List<Genre> genres = bookService.readGenresByBook(book);
@@ -97,7 +97,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/books/{bookId}/genres" , method = {RequestMethod.PUT, RequestMethod.POST})
+	@RequestMapping(path = "/Admin/books/{bookId}/genres" , method = {RequestMethod.PUT, RequestMethod.POST})
 	public ResponseEntity<Genre> addGenreToBook(@RequestBody Book book, @RequestBody Genre genre){
 		try {
 			bookService.addToBookGenre(book, genre);
@@ -107,7 +107,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/books/{bookId}/genres" , method = RequestMethod.DELETE)
+	@RequestMapping(path = "/Admin/books/{bookId}/genres" , method = RequestMethod.DELETE)
 	public ResponseEntity<Genre> deleteGenreFromBook(@RequestBody Book book, @RequestBody Genre genre){
 		try {
 			bookService.deleteFromBookGenre(book, genre);
@@ -117,7 +117,7 @@ public class BookController {
 		}
 	}
 
-	@RequestMapping(path = "**/Admin/books/{bookId}/authors", method = RequestMethod.GET)
+	@RequestMapping(path = "/Admin/books/{bookId}/authors", method = RequestMethod.GET)
 	public ResponseEntity<List<Author>> readAuthorByBook(@RequestBody Book book){
 		try {
 			List<Author> authors = bookService.readAuthorsByBook(book.getBookId());
@@ -127,7 +127,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/books/{bookId}/authors" , method = {RequestMethod.PUT, RequestMethod.POST})
+	@RequestMapping(path = "/Admin/books/{bookId}/authors" , method = {RequestMethod.PUT, RequestMethod.POST})
 	public ResponseEntity<Author> addGenreToBook(@RequestBody Book book, @RequestBody Author author){
 		try {
 			bookService.addToBookAuthor(book, author);
@@ -137,7 +137,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/books/{bookId}/authors" , method = RequestMethod.DELETE)
+	@RequestMapping(path = "/Admin/books/{bookId}/authors" , method = RequestMethod.DELETE)
 	public ResponseEntity<Author> deleteGenreFromBook(@RequestBody Book book, @RequestBody Author author){
 		try {
 			bookService.deleteFomAuthorBook(book, author);
@@ -147,7 +147,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = {"**/Admin/books/{bookId}/publisher", "**/Admin/books/{bookId}/publisher/{publisherId"}, method = RequestMethod.GET)
+	@RequestMapping(path = {"/Admin/books/{bookId}/publisher", "/Admin/books/{bookId}/publisher/{publisherId"}, method = RequestMethod.GET)
 	public ResponseEntity<Publisher> getPublisherFromBook(@RequestBody Book book){
 		try {
 			Publisher publisher = bookService.readPublisherByBook(book.getBookId());
@@ -157,7 +157,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = {"**/Admin/books/{bookId}/publisher", "**/Admin/books/{bookId}/publisher/{publisherId"}, method = {RequestMethod.PUT, RequestMethod.POST})
+	@RequestMapping(path = {"/Admin/books/{bookId}/publisher", "/Admin/books/{bookId}/publisher/{publisherId"}, method = {RequestMethod.PUT, RequestMethod.POST})
 	public ResponseEntity<Book> updatePublisher(@RequestBody Book book, @PathVariable int publisherId){
 		try {
 			book.setPublisher(publisherService.readPublisherById(publisherId));
@@ -168,7 +168,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path= {"**/Admin/books/{bookId}/publisher", "**/Admin/books/{bookId}/publisher/{publisherId"}, method = RequestMethod.DELETE)
+	@RequestMapping(path= {"/Admin/books/{bookId}/publisher", "/Admin/books/{bookId}/publisher/{publisherId"}, method = RequestMethod.DELETE)
 	public ResponseEntity<String> deletePublisher(){
 		return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
 	}

@@ -29,7 +29,7 @@ public class PublisherController {
 	@Autowired
 	PublisherService publisherService;
 	
-	@RequestMapping(path="**/Admin/publishers", method = RequestMethod.GET)
+	@RequestMapping(path="/Admin/publishers", method = RequestMethod.GET)
 	public ResponseEntity<List<Publisher>> getPublishers(){
 		try {
 			List<Publisher> publishers = publisherService.readAllPublisher();
@@ -40,12 +40,12 @@ public class PublisherController {
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/publishers", method = {RequestMethod.PUT,RequestMethod.DELETE})
+	@RequestMapping(path="/Admin/publishers", method = {RequestMethod.PUT,RequestMethod.DELETE})
 	public ResponseEntity<String> methodNotAllowed(){
 		return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
 	}
 	
-	@RequestMapping(path= {"**/Admin/publishers/{publisherId}","**/Admin/publishers"}, method = RequestMethod.POST)
+	@RequestMapping(path= {"/Admin/publishers"}, method = RequestMethod.POST)
 	public ResponseEntity<Publisher> addPublisher(@RequestBody Publisher publisher){
 		try {
 			publisherService.addPublisher(publisher);
@@ -56,7 +56,7 @@ public class PublisherController {
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/publishers/{publisherId}", method = RequestMethod.PUT)
+	@RequestMapping(path="/Admin/publishers/{publisherId}", method = RequestMethod.PUT)
 	public ResponseEntity<Publisher> updatePublisher(@RequestBody Publisher publisher){
 		try {
 			publisherService.updatePublisher(publisher);
@@ -67,7 +67,7 @@ public class PublisherController {
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/publishers/{publisherId}", method = RequestMethod.GET)
+	@RequestMapping(path="/Admin/publishers/{publisherId}", method = RequestMethod.GET)
 	public ResponseEntity<Publisher> readPublisher(@PathVariable int publisherId){
 		try {
 			Publisher publisher = publisherService.readPublisherById(publisherId);
@@ -78,7 +78,7 @@ public class PublisherController {
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/publishers/{publisherId}", method = RequestMethod.DELETE)
+	@RequestMapping(path="/Admin/publishers/{publisherId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Publisher> deletePublisher(@RequestBody Publisher publisher){
 		try {
 			publisherService.deletePublisher(publisher);
@@ -89,7 +89,7 @@ public class PublisherController {
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/publishers/{publisherId}/books")
+	@RequestMapping(path="/Admin/publishers/{publisherId}/books")
 	public ResponseEntity<List<Book>> readBooksByPublisher(@PathVariable int publisherId){
 		try {
 			List<Book> books = publisherService.readBookByPublisher(publisherId);
