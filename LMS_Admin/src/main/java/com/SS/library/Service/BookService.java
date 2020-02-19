@@ -40,20 +40,32 @@ public class BookService {
 	
 	public void addBook(Book book) throws SQLException {
 		if(book.getGenres().size()!=0 && book.getAuthors().size()!=0 && book.getGenres().size()!=0) {
-			book.setBookId(bDao.add(book));
-			book.getAuthors().forEach(a->{try {
-				bDao.addToBookAuthor(a, book);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch bloc
-			}});
-			book.getGenres().forEach(g->{try {
-				bDao.addToBookGenres(book, g);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-//				throw new Exception();
-			}});	
+			try {
+				book.setBookId(bDao.add(book));
+				for(Author a:book.getAuthors()) {
+					bDao.addToBookAuthor(a, book);
+				}
+	//			book.getAuthors().forEach(a->{try {
+	//				bDao.addToBookAuthor(a, book);
+	//			} catch (SQLException e) {
+	//				// TODO Auto-generated catch bloc
+	//			}});
+				for(Genre g : book.getGenres()) {
+					bDao.addToBookGenres(book, g);
+				}
+	//			book.getGenres().forEach(g->{try {
+	//				bDao.addToBookGenres(book, g);
+	//			} catch (SQLException e) {
+	//				// TODO Auto-generated catch block
+	////				throw new Exception();
+	//			}});
+				util.getConnection().commit();
+			}catch(SQLException e) {
+				util.getConnection().rollback();
+				throw e;
+			}
 		}
-		util.getConnection().commit();
+	
 	}
 	
 	public List<Book> readAllBooks() throws SQLException{
