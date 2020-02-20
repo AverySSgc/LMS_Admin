@@ -22,23 +22,23 @@ public class GenreController {
 	@Autowired
 	GenreService genreService;
 	
-	@RequestMapping(path = "**/Admin/genres", method = RequestMethod.GET)
+	@RequestMapping(path = "/admin/genres", method = RequestMethod.GET)
 	public ResponseEntity<List<Genre>> getgenres(){
 		try {
 			List <Genre> genres = genreService.readAllGenre();
 			return new ResponseEntity<List<Genre>>(genres,HttpStatus.OK);
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<List<Genre>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/genres", method = {RequestMethod.DELETE, RequestMethod.PUT})
+	@RequestMapping(path = "/admin/genres", method = {RequestMethod.DELETE, RequestMethod.PUT})
 	public ResponseEntity<String> genreMethodNotAllowed() {
 		return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
 	}
 	
-	@RequestMapping(path = "**/Admin/genres/{genreId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/admin/genres/{genreId}", method = RequestMethod.GET)
 	public ResponseEntity<Genre> getgenre(@PathVariable int genreId){
 		try {
 			Genre genre = genreService.readByGenreID(genreId);
@@ -46,9 +46,12 @@ public class GenreController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Genre>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Genre>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@RequestMapping(path = {"**/Admin/genres/{genreId}","**/Admin/genres"} , method = RequestMethod.POST)
+	@RequestMapping(path = {"/admin/genres"} , method = RequestMethod.POST)
 	public ResponseEntity<Genre> addgenre(@RequestBody Genre genre){
 		try {
 			genreService.addGenre(genre);
@@ -56,9 +59,12 @@ public class GenreController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Genre>(HttpStatus.CONFLICT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Genre>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@RequestMapping(path = "**/Admin/genres/{genreId}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/admin/genres/{genreId}", method = RequestMethod.PUT)
 	public ResponseEntity<Genre> updategenre(@RequestBody Genre genre){
 		try {
 			genreService.updateGenre(genre);
@@ -66,27 +72,36 @@ public class GenreController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Genre>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Genre>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@RequestMapping(path = "**/Admin/genres/{genreId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Genre> deletegenre(@RequestBody Genre genre){
+	@RequestMapping(path = "/admin/genres/{genreId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Genre> deletegenre(@PathVariable int genreId){
 		try {
-			genreService.deleteGenre(genre);
-			return new ResponseEntity<Genre>(genre,HttpStatus.OK);
+			genreService.deleteGenre(genreId);
+			return new ResponseEntity<Genre>(HttpStatus.OK);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Genre>(HttpStatus.NOT_FOUND);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Genre>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/genres/{genreId}/books")
-	public ResponseEntity<List<Book>>readBooksBygenre(@RequestBody Genre genre){
+	@RequestMapping(path="/admin/genres/{genreId}/books")
+	public ResponseEntity<List<Book>>readBooksBygenre(@PathVariable int genreId){
 		try {
-			List <Book> books = genreService.readBooksByGenre(genre);
+			List <Book> books = genreService.readBooksByGenre(genreId);
 			return new ResponseEntity<List<Book>>(books,HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<List<Book>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

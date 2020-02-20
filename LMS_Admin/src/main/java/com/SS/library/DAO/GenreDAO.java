@@ -1,5 +1,6 @@
 package com.SS.library.DAO;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class GenreDAO extends DAO<Genre> {
 	BookDAO bdao;
 	
     @Override
-    protected List<Genre> extractData(ResultSet rs) throws SQLException {
+    protected List<Genre> extractData(ResultSet rs, Connection conn) throws SQLException {
         List<Genre> genres = new ArrayList<>();
         while(rs.next()){
             Genre g = new Genre();
@@ -24,14 +25,14 @@ public class GenreDAO extends DAO<Genre> {
             g.setGenreName(rs.getString("genre_name"));
             //get book list
 //            BookDAO bdao = new BookDAO(conn);
-            g.setBooks(bdao.readBookGenreByBookId(g.getGenreID()));
+            g.setBooks(bdao.readBookGenreByBookId(g.getGenreID(),conn));
             genres.add(g);
         }
         return genres;
     }
 
     @Override
-    protected List<Genre> extractEssentialData(ResultSet rs) throws SQLException {
+    protected List<Genre> extractEssentialData(ResultSet rs, Connection conn) throws SQLException {
         List<Genre> genres = new ArrayList<>();
         while(rs.next()){
             Genre g = new Genre();
@@ -43,36 +44,36 @@ public class GenreDAO extends DAO<Genre> {
     }
 
     @Override
-    public Integer add(Genre object) throws SQLException {
+    public Integer add(Genre object, Connection conn) throws SQLException {
         return saveRecieveKey("insert into tbl_genre (genre_name) value (?)",
-                new Object[]{object.getGenreName()});
+                new Object[]{object.getGenreName()},conn);
     }
 
     @Override
-    public void update(Genre object) throws SQLException {
+    public void update(Genre object, Connection conn) throws SQLException {
         save("update tbl_genre set genre_name = ? where genre_id = ?",
-                new Object[]{object.getGenreName(),object.getGenreID()});
+                new Object[]{object.getGenreName(),object.getGenreID()},conn);
     }
 
     @Override
-    public void delete(Genre object) throws SQLException {
-        save("delete from tbl_genre where genre_id = ?", new Object[]{object.getGenreID()});
+    public void delete(int id, Connection conn) throws SQLException {
+        save("delete from tbl_genre where genre_id = ?", new Object[]{id},conn);
     }
 
     @Override
-    public List<Genre> read() throws SQLException {
-        return read("select * from tbl_genre", null);
+    public List<Genre> read(Connection conn) throws SQLException {
+        return read("select * from tbl_genre", null,conn);
     }
     
-    public Genre readById(int genreId) throws SQLException{
-    	List<Genre> genre = read("select * from tbl_genre where genre_id = ?", new Object[] {genreId});
+    public Genre readById(int genreId, Connection conn) throws SQLException{
+    	List<Genre> genre = read("select * from tbl_genre where genre_id = ?", new Object[] {genreId},conn);
     	return genre.get(0);
     }
 
-    public List<Genre> readBookGenre(int bookId) throws SQLException {
+    public List<Genre> readBookGenre(int bookId, Connection conn) throws SQLException {
         return readEssential("select genre_name, tg.genre_id as genre_id from tbl_genre as tg " +
                 "join tbl_book_genres as tbg on tg.genre_id = tbg.genre_id " +
-                "where bookId= ?",new Object[]{bookId});
+                "where bookId= ?",new Object[]{bookId},conn);
     }
 
 

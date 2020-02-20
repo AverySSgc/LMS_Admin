@@ -29,23 +29,23 @@ public class PublisherController {
 	@Autowired
 	PublisherService publisherService;
 	
-	@RequestMapping(path="**/Admin/publishers", method = RequestMethod.GET)
+	@RequestMapping(path="/admin/publishers", method = RequestMethod.GET)
 	public ResponseEntity<List<Publisher>> getPublishers(){
 		try {
 			List<Publisher> publishers = publisherService.readAllPublisher();
 			return new ResponseEntity<List<Publisher>>(publishers,HttpStatus.OK);
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<List<Publisher>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/publishers", method = {RequestMethod.PUT,RequestMethod.DELETE})
+	@RequestMapping(path="/admin/publishers", method = {RequestMethod.PUT,RequestMethod.DELETE})
 	public ResponseEntity<String> methodNotAllowed(){
 		return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
 	}
 	
-	@RequestMapping(path= {"**/Admin/publishers/{publisherId}","**/Admin/publishers"}, method = RequestMethod.POST)
+	@RequestMapping(path= {"/admin/publishers"}, method = RequestMethod.POST)
 	public ResponseEntity<Publisher> addPublisher(@RequestBody Publisher publisher){
 		try {
 			publisherService.addPublisher(publisher);
@@ -53,10 +53,13 @@ public class PublisherController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Publisher> (HttpStatus.CONFLICT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Publisher> (HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/publishers/{publisherId}", method = RequestMethod.PUT)
+	@RequestMapping(path="/admin/publishers/{publisherId}", method = RequestMethod.PUT)
 	public ResponseEntity<Publisher> updatePublisher(@RequestBody Publisher publisher){
 		try {
 			publisherService.updatePublisher(publisher);
@@ -64,10 +67,13 @@ public class PublisherController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Publisher> (HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Publisher> (HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/publishers/{publisherId}", method = RequestMethod.GET)
+	@RequestMapping(path="/admin/publishers/{publisherId}", method = RequestMethod.GET)
 	public ResponseEntity<Publisher> readPublisher(@PathVariable int publisherId){
 		try {
 			Publisher publisher = publisherService.readPublisherById(publisherId);
@@ -75,21 +81,27 @@ public class PublisherController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Publisher> (HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Publisher> (HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/publishers/{publisherId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Publisher> deletePublisher(@RequestBody Publisher publisher){
+	@RequestMapping(path="/admin/publishers/{publisherId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Publisher> deletePublisher(@PathVariable int publisherId){
 		try {
-			publisherService.deletePublisher(publisher);
-			return new ResponseEntity<Publisher>(publisher,HttpStatus.OK);
+			publisherService.deletePublisher(publisherId);
+			return new ResponseEntity<Publisher>(HttpStatus.OK);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Publisher> (HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<Publisher> (HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@RequestMapping(path="**/Admin/publishers/{publisherId}/books")
+	@RequestMapping(path="/admin/publishers/{publisherId}/books", method = RequestMethod.GET)
 	public ResponseEntity<List<Book>> readBooksByPublisher(@PathVariable int publisherId){
 		try {
 			List<Book> books = publisherService.readBookByPublisher(publisherId);
@@ -97,6 +109,9 @@ public class PublisherController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<List<Book>> (HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

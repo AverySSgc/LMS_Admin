@@ -3,6 +3,7 @@
  */
 package com.SS.library.Service;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -38,68 +39,110 @@ public class BookService {
 	@Autowired
 	ConnectUtil util;
 	
-	public void addBook(Book book) throws SQLException {
+	public void addBook(Book book) throws SQLException, ClassNotFoundException {
 		if(book.getGenres().size()!=0 && book.getAuthors().size()!=0 && book.getGenres().size()!=0) {
-			book.setBookId(bDao.add(book));
-			book.getAuthors().forEach(a->{try {
-				bDao.addToBookAuthor(a, book);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch bloc
-			}});
-			book.getGenres().forEach(g->{try {
-				bDao.addToBookGenres(book, g);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-//				throw new Exception();
-			}});	
+			Connection conn = util.getConnection();
+			try {
+				book.setBookId(bDao.add(book, conn));
+				for(Author a:book.getAuthors()) {
+					bDao.addToBookAuthor(a, book, conn);
+				}
+	//			book.getAuthors().forEach(a->{try {
+	//				bDao.addToBookAuthor(a, book);
+	//			} catch (SQLException e) {
+	//				// TODO Auto-generated catch bloc
+	//			}});
+				for(Genre g : book.getGenres()) {
+					bDao.addToBookGenres(book, g, conn);
+				}
+	//			book.getGenres().forEach(g->{try {
+	//				bDao.addToBookGenres(book, g);
+	//			} catch (SQLException e) {
+	//				// TODO Auto-generated catch block
+	////				throw new Exception();
+	//			}});
+				conn.commit();
+				conn.close();
+			}catch(SQLException e) {
+				conn.rollback();
+				conn.close();
+				throw e;
+			}
 		}
-		util.getConnection().commit();
+	
 	}
 	
-	public List<Book> readAllBooks() throws SQLException{
-		return bDao.read();
+	public List<Book> readAllBooks() throws SQLException, ClassNotFoundException{
+		Connection conn = util.getConnection();
+		List<Book> b = bDao.read(conn);
+		conn.close();
+		return b;
 	}
 	
-	public Book readBookById(int bookId) throws SQLException {
-		return bDao.readByBookId(bookId);
+	public Book readBookById(int bookId) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		Book b =bDao.readByBookId(bookId,conn);
+		conn.close();
+		return b;
 	}
 	
-	public void updateBook(Book book) throws SQLException {
-		bDao.update(book);
-		util.getConnection().commit();
+	public void updateBook(Book book) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		bDao.update(book, conn);
+		conn.commit();
+		conn.close();
 	}
 	
-	public void deleteBook(Book book) throws SQLException {
-		bDao.delete(book);
-		util.getConnection().commit();
+	public void deleteBook(int bookId) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		bDao.delete(bookId,conn);
+		conn.commit();
+		conn.close();
 	}
 	
-	public List<Genre> readGenresByBook(Book book) throws SQLException{
-		return gDao.readBookGenre(book.getBookId());
+	public List<Genre> readGenresByBook(int bookId) throws SQLException, ClassNotFoundException{
+		Connection conn = util.getConnection();
+		List<Genre> g = gDao.readBookGenre(bookId,conn);
+		conn.close();
+		return g;
 	}
-	public void addToBookGenre(Book book, Genre genre) throws SQLException {
-		bDao.addToBookGenres(book, genre);
-		util.getConnection().commit();
+	public void addToBookGenre(Book book, Genre genre) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		bDao.addToBookGenres(book, genre,conn);
+		conn.commit();
+		conn.close();
 	}
-	public void deleteFromBookGenre(Book book, Genre genre) throws SQLException {
-		bDao.deleteFromGenreBook(genre.getGenreID(), book.getBookId());
-		util.getConnection().commit();
+	public void deleteFromBookGenre(int bookId,int genreId) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		bDao.deleteFromGenreBook(genreId, bookId,conn);
+		conn.commit();
+		conn.close();
 	}
 	
-	public Publisher readPublisherByBook (int bookId) throws SQLException{
-		return pDao.readByID(bDao.readByBookId(bookId).getPublisher().getPublisherId());
+	public Publisher readPublisherByBook (int bookId) throws SQLException, ClassNotFoundException{
+		Connection conn = util.getConnection();
+		Publisher p =pDao.readByID(bDao.readByBookId(bookId,conn).getPublisher().getPublisherId(),conn);
+		conn.close();
+		return p;
 	}
 	
-	public List<Author> readAuthorsByBook (int bookId) throws SQLException {
-		return aDao.readBookAuthorByBookId(bookId);
+	public List<Author> readAuthorsByBook (int bookId) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		List <Author> a =aDao.readBookAuthorByBookId(bookId,conn); 
+		conn.close();
+		return a;
 	}
-	public void addToBookAuthor(Book book, Author author) throws SQLException {
-		bDao.addToBookAuthor(author, book);
-		util.getConnection().commit();
+	public void addToBookAuthor(Book book, Author author) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		bDao.addToBookAuthor(author, book,conn);
+		conn.commit();
+		conn.close();
 	}
-	public void deleteFomAuthorBook(Book book, Author author) throws SQLException {
-		bDao.deleteFromBookAuthor(author.getAuthorID(), book.getBookId());
-		util.getConnection().commit();
+	public void deleteFomAuthorBook(int bookId, int authorId) throws SQLException, ClassNotFoundException {
+		Connection conn = util.getConnection();
+		bDao.deleteFromBookAuthor(authorId, bookId,conn);
+		conn.commit();
+		conn.close();
 	}
 	
 	
