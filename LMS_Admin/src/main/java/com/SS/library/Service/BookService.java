@@ -93,16 +93,16 @@ public class BookService {
 		conn.close();
 	}
 	
-	public void deleteBook(Book book) throws SQLException, ClassNotFoundException {
+	public void deleteBook(int bookId) throws SQLException, ClassNotFoundException {
 		Connection conn = util.getConnection();
-		bDao.delete(book,conn);
+		bDao.delete(bookId,conn);
 		conn.commit();
 		conn.close();
 	}
 	
-	public List<Genre> readGenresByBook(Book book) throws SQLException, ClassNotFoundException{
+	public List<Genre> readGenresByBook(int bookId) throws SQLException, ClassNotFoundException{
 		Connection conn = util.getConnection();
-		List<Genre> g = gDao.readBookGenre(book.getBookId(),conn);
+		List<Genre> g = gDao.readBookGenre(bookId,conn);
 		conn.close();
 		return g;
 	}
@@ -112,9 +112,9 @@ public class BookService {
 		conn.commit();
 		conn.close();
 	}
-	public void deleteFromBookGenre(Book book, Genre genre) throws SQLException, ClassNotFoundException {
+	public void deleteFromBookGenre(int bookId,int genreId) throws SQLException, ClassNotFoundException {
 		Connection conn = util.getConnection();
-		bDao.deleteFromGenreBook(genre.getGenreID(), book.getBookId(),conn);
+		bDao.deleteFromGenreBook(genreId, bookId,conn);
 		conn.commit();
 		conn.close();
 	}
@@ -138,9 +138,9 @@ public class BookService {
 		conn.commit();
 		conn.close();
 	}
-	public void deleteFomAuthorBook(Book book, Author author) throws SQLException, ClassNotFoundException {
+	public void deleteFomAuthorBook(int bookId, int authorId) throws SQLException, ClassNotFoundException {
 		Connection conn = util.getConnection();
-		bDao.deleteFromBookAuthor(author.getAuthorID(), book.getBookId(),conn);
+		bDao.deleteFromBookAuthor(authorId, bookId,conn);
 		conn.commit();
 		conn.close();
 	}

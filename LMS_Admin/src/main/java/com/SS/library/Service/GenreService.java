@@ -56,15 +56,15 @@ public class GenreService {
 		conn.commit();
 		conn.close();
 	}
-	public void deleteGenre(Genre genre) throws SQLException, ClassNotFoundException {
+	public void deleteGenre(int genreId) throws SQLException, ClassNotFoundException {
 		Connection conn = util.getConnection();
-		gDao.delete(genre,conn);
+		gDao.delete(genreId,conn);
 		conn.commit();
 		conn.close();
 	}
-	public List<Book> readBooksByGenre(Genre genre) throws SQLException, ClassNotFoundException{
+	public List<Book> readBooksByGenre(int genreId) throws SQLException, ClassNotFoundException{
 		Connection conn = util.getConnection();
-		List<Book> b = bDao.readBookGenreByBookId(genre.getGenreID(),conn);
+		List<Book> b = bDao.readBookGenreByBookId(genreId,conn);
 		conn.close();
 		return b;
 	}

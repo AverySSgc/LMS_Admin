@@ -33,7 +33,7 @@ public class BookController {
 	@Autowired
 	PublisherService publisherService;
 	
-	@RequestMapping(path = "/Admin/books", method = RequestMethod.GET)
+	@RequestMapping(path = "/admin/books", method = RequestMethod.GET)
 	public ResponseEntity<List<Book>>getBooks(){
 		try {
 			List <Book> books = bookService.readAllBooks();
@@ -43,12 +43,12 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "/Admin/books", method = {RequestMethod.DELETE, RequestMethod.PUT})
+	@RequestMapping(path = "/admin/books", method = {RequestMethod.DELETE, RequestMethod.PUT})
 	public ResponseEntity<String> authorMethodNotAllowed() {
 		return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
 	}
 	
-	@RequestMapping(path = "/Admin/books/{bookId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/admin/books/{bookId}", method = RequestMethod.GET)
 	public ResponseEntity<Book> getBook(@PathVariable int bookId){
 		try {
 			Book book = bookService.readBookById(bookId);
@@ -61,7 +61,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = {"/Admin/books"}, method = RequestMethod.POST)
+	@RequestMapping(path = {"/admin/books"}, method = RequestMethod.POST)
 	public ResponseEntity<Book> addBook(@RequestBody Book book){
 		try {
 			bookService.addBook(book);
@@ -74,7 +74,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "/Admin/books/{bookId}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/admin/books/{bookId}", method = RequestMethod.PUT)
 	public ResponseEntity<Book> updateBook(@RequestBody Book book){
 		try {
 			bookService.updateBook(book);
@@ -86,11 +86,11 @@ public class BookController {
 			return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@RequestMapping(path = "/Admin/books/{bookId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Book> deleteBook(@RequestBody Book book){
+	@RequestMapping(path = "/admin/books/{bookId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Book> deleteBook(@PathVariable int bookId){
 		try {
-			bookService.deleteBook(book);
-			return new ResponseEntity<Book>(book,HttpStatus.OK);
+			bookService.deleteBook(bookId);
+			return new ResponseEntity<Book>(HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<Book>(HttpStatus.NO_CONTENT);
 		} catch (ClassNotFoundException e) {
@@ -99,10 +99,10 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "/Admin/books/{bookId}/genres", method = RequestMethod.GET)
-	public ResponseEntity<List<Genre>> readGenresByBook(@RequestBody Book book){
+	@RequestMapping(path = "/admin/books/{bookId}/genres", method = RequestMethod.GET)
+	public ResponseEntity<List<Genre>> readGenresByBook(@PathVariable int bookId){
 		try {
-			List<Genre> genres = bookService.readGenresByBook(book);
+			List<Genre> genres = bookService.readGenresByBook(bookId);
 			return new ResponseEntity<List<Genre>>(genres,HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<List<Genre>>(HttpStatus.NO_CONTENT);
@@ -111,7 +111,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "/Admin/books/{bookId}/genres" , method = {RequestMethod.PUT, RequestMethod.POST})
+	@RequestMapping(path = "/admin/books/{bookId}/genres" , method = {RequestMethod.PUT, RequestMethod.POST})
 	public ResponseEntity<Genre> addGenreToBook(@RequestBody Book book, @RequestBody Genre genre){
 		try {
 			bookService.addToBookGenre(book, genre);
@@ -123,11 +123,11 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "/Admin/books/{bookId}/genres" , method = RequestMethod.DELETE)
-	public ResponseEntity<Genre> deleteGenreFromBook(@RequestBody Book book, @RequestBody Genre genre){
+	@RequestMapping(path = "/admin/books/{bookId}/genres/{genreId}" , method = RequestMethod.DELETE)
+	public ResponseEntity<Genre> deleteGenreFromBook(@PathVariable int bookId, @PathVariable int genreId){
 		try {
-			bookService.deleteFromBookGenre(book, genre);
-			return new ResponseEntity<Genre>(genre, HttpStatus.OK);
+			bookService.deleteFromBookGenre(bookId, genreId);
+			return new ResponseEntity<Genre>(HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<Genre>(HttpStatus.NO_CONTENT);
 		} catch (ClassNotFoundException e) {
@@ -135,10 +135,10 @@ public class BookController {
 		}
 	}
 
-	@RequestMapping(path = "/Admin/books/{bookId}/authors", method = RequestMethod.GET)
-	public ResponseEntity<List<Author>> readAuthorByBook(@RequestBody Book book){
+	@RequestMapping(path = "/admin/books/{bookId}/authors", method = RequestMethod.GET)
+	public ResponseEntity<List<Author>> readAuthorByBook(@PathVariable int bookId){
 		try {
-			List<Author> authors = bookService.readAuthorsByBook(book.getBookId());
+			List<Author> authors = bookService.readAuthorsByBook(bookId);
 			return new ResponseEntity<List<Author>>(authors,HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<List<Author>>(HttpStatus.NO_CONTENT);
@@ -147,7 +147,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "/Admin/books/{bookId}/authors" , method = {RequestMethod.PUT, RequestMethod.POST})
+	@RequestMapping(path = "/admin/books/{bookId}/authors" , method = {RequestMethod.PUT, RequestMethod.POST})
 	public ResponseEntity<Author> addGenreToBook(@RequestBody Book book, @RequestBody Author author){
 		try {
 			bookService.addToBookAuthor(book, author);
@@ -159,11 +159,11 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = "/Admin/books/{bookId}/authors" , method = RequestMethod.DELETE)
-	public ResponseEntity<Author> deleteGenreFromBook(@RequestBody Book book, @RequestBody Author author){
+	@RequestMapping(path = "/admin/books/{bookId}/authors/{authorId}" , method = RequestMethod.DELETE)
+	public ResponseEntity<Author> deleteAuthorFromBook(@PathVariable int bookId, @PathVariable int authorId){
 		try {
-			bookService.deleteFomAuthorBook(book, author);
-			return new ResponseEntity<Author>(author, HttpStatus.OK);
+			bookService.deleteFomAuthorBook(bookId, authorId);
+			return new ResponseEntity<Author>( HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
 		} catch (ClassNotFoundException e) {
@@ -172,10 +172,10 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = {"/Admin/books/{bookId}/publisher", "/Admin/books/{bookId}/publisher/{publisherId"}, method = RequestMethod.GET)
-	public ResponseEntity<Publisher> getPublisherFromBook(@RequestBody Book book){
+	@RequestMapping(path = {"/admin/books/{bookId}/publisher", "/admin/books/{bookId}/publisher/{publisherId"}, method = RequestMethod.GET)
+	public ResponseEntity<Publisher> getPublisherFromBook(@PathVariable int bookId){
 		try {
-			Publisher publisher = bookService.readPublisherByBook(book.getBookId());
+			Publisher publisher = bookService.readPublisherByBook(bookId);
 			return new ResponseEntity<Publisher>(publisher , HttpStatus.OK);
 		}catch(SQLException e) {
 			return new ResponseEntity<Publisher>(HttpStatus.NO_CONTENT);
@@ -184,7 +184,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(path = {"/Admin/books/{bookId}/publisher", "/Admin/books/{bookId}/publisher/{publisherId"}, method = {RequestMethod.PUT, RequestMethod.POST})
+	@RequestMapping(path = {"/admin/books/{bookId}/publisher/{publisherId"}, method = {RequestMethod.PUT, RequestMethod.POST})
 	public ResponseEntity<Book> updatePublisher(@RequestBody Book book, @PathVariable int publisherId){
 		try {
 			book.setPublisher(publisherService.readPublisherById(publisherId));

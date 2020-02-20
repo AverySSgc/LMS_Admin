@@ -47,9 +47,9 @@ public class PublisherService {
 		conn.commit();
 		conn.close();
 	}
-	public void deletePublisher(Publisher publisher)throws SQLException, ClassNotFoundException{
+	public void deletePublisher(int publisherId)throws SQLException, ClassNotFoundException{
 		Connection conn = util.getConnection();
-		pDao.delete(publisher,conn );
+		pDao.delete(publisherId,conn );
 		conn.commit();
 		conn.close();
 	}

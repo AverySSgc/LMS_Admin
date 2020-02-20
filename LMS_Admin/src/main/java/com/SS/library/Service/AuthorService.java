@@ -37,9 +37,9 @@ public class AuthorService {
 		
 	}
 	
-	public void addBookToAuthor(Author author, Book book) throws SQLException, ClassNotFoundException {
+	public void addBookToAuthor(int authorId, int bookId) throws SQLException, ClassNotFoundException {
 		Connection conn = util.getConnection();
-		aDao.addToBookAuthor(author, book,conn);
+		aDao.addToBookAuthor(authorId, bookId,conn);
 		conn.commit();
 		conn.close();
 	}
@@ -65,23 +65,23 @@ public class AuthorService {
 		conn.close();
 	}
 	
-	public void deleteAuthor(Author author) throws SQLException, ClassNotFoundException{
+	public void deleteAuthor(int authorId) throws SQLException, ClassNotFoundException{
 		Connection conn = util.getConnection();
-		aDao.delete(author,conn);
+		aDao.delete(authorId,conn);
 		conn.commit();
 		conn.close();
 	}
 	
-	public void deleteBookFromAuthor(Author author, Book book) throws SQLException, ClassNotFoundException {
+	public void deleteBookFromAuthor(int author, int book) throws SQLException, ClassNotFoundException {
 		Connection conn = util.getConnection();
 		aDao.deleteBookAuthor(author, book,conn);
 		conn.commit();
 		conn.close();
 	}
 	
-	public List<Book> readBookAuthorByAuthor(Author author) throws SQLException, ClassNotFoundException {
+	public List<Book> readBookAuthorByAuthor(int authorId) throws SQLException, ClassNotFoundException {
 		Connection conn = util.getConnection();
-		List<Book> b =bDao.readBookAuthorByAuthorId(author.getAuthorID(),conn);
+		List<Book> b =bDao.readBookAuthorByAuthorId(authorId,conn);
 		conn.close();
 		return b;
 	}

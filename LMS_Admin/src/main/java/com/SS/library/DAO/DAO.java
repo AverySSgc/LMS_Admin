@@ -71,7 +71,7 @@ public abstract class DAO <T> {
 
     public abstract Integer add(T object, Connection conn)throws SQLException;
     public abstract void update(T object, Connection conn)throws SQLException;
-    public abstract void delete(T object, Connection conn)throws SQLException;
+    public abstract void delete(int id, Connection conn)throws SQLException;
     public abstract List<T> read(Connection conn) throws SQLException;
 
 }

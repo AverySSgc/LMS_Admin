@@ -56,8 +56,8 @@ public class GenreDAO extends DAO<Genre> {
     }
 
     @Override
-    public void delete(Genre object, Connection conn) throws SQLException {
-        save("delete from tbl_genre where genre_id = ?", new Object[]{object.getGenreID()},conn);
+    public void delete(int id, Connection conn) throws SQLException {
+        save("delete from tbl_genre where genre_id = ?", new Object[]{id},conn);
     }
 
     @Override

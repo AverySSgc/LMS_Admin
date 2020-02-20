@@ -66,8 +66,8 @@ public class PublisherDAO extends DAO<Publisher> {
 	    }
 
 	    @Override
-	    public void delete(Publisher object, Connection conn) throws SQLException {
-	        save("delete from tbl_publisher where publisherId = ?",new Object[] {object.getPublisherId()},conn);
+	    public void delete(int id, Connection conn) throws SQLException {
+	        save("delete from tbl_publisher where publisherId = ?",new Object[] {id},conn);
 	    }
 
 	    @Override

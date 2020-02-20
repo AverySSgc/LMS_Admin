@@ -29,7 +29,7 @@ public class AuthorController {
 	@Autowired
 	AuthorService authorService;
 	
-	@RequestMapping(path = "/Admin/authors", method = RequestMethod.GET)
+	@RequestMapping(path = "/admin/authors", method = RequestMethod.GET)
 	public ResponseEntity<List<Author>> getAuthors(){
 		try {
 			List <Author> authors = authorService.readAllAuthors();
@@ -40,25 +40,25 @@ public class AuthorController {
 		}
 	}
 	
-	@RequestMapping(path = "/Admin/authors", method = {RequestMethod.DELETE, RequestMethod.PUT})
+	@RequestMapping(path = "/admin/authors", method = {RequestMethod.DELETE, RequestMethod.PUT})
 	public ResponseEntity<String> authorMethodNotAllowed() {
 		return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
 	}
 	
-	@RequestMapping(path = "/Admin/authors/{authorId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/admin/authors/{authorId}", method = RequestMethod.GET)
 	public ResponseEntity<Author> getAuthor(@PathVariable int authorId){
 		try {
 			Author author = authorService.readAuthorAtId(authorId);
 			return new ResponseEntity<Author>(author,HttpStatus.OK);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Author>(HttpStatus.NOT_FOUND);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Author>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@RequestMapping(path = {"/Admin/authors"} , method = RequestMethod.POST)
+	@RequestMapping(path = {"/admin/authors"} , method = RequestMethod.POST)
 	public ResponseEntity<Author> addAuthor(@RequestBody Author author){
 		try {
 			authorService.addAuthor(author);
@@ -71,51 +71,51 @@ public class AuthorController {
 			return new ResponseEntity<Author>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@RequestMapping(path = "/Admin/authors/{authorId}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/admin/authors/{authorId}", method = RequestMethod.PUT)
 	public ResponseEntity<Author> updateAuthor(@RequestBody Author author){
 		try {
 			authorService.updateAuthor(author);
 			return new ResponseEntity<Author>(author,HttpStatus.OK);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Author>(HttpStatus.NOT_FOUND);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Author>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@RequestMapping(path = "/Admin/authors/{authorId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Author> deleteAuthor(@RequestBody Author author){
+	@RequestMapping(path = "/admin/authors/{authorId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Author> deleteAuthor(@PathVariable int authorId){
 		try {
-			authorService.deleteAuthor(author);
-			return new ResponseEntity<Author>(author,HttpStatus.OK);
+			authorService.deleteAuthor(authorId);
+			return new ResponseEntity<Author>(HttpStatus.OK);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Author>(HttpStatus.NOT_FOUND);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<Author>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@RequestMapping(path="/Admin/authors/{authorId}/Books")
-	public ResponseEntity<List<Book>>readBooksByAuthor(@RequestBody Author author){
+	@RequestMapping(path="/admin/authors/{authorId}/books", method = RequestMethod.GET)
+	public ResponseEntity<List<Book>>readBooksByAuthor(@PathVariable int authorId){
 		try {
-			List <Book> books = authorService.readBookAuthorByAuthor(author);
+			List <Book> books = authorService.readBookAuthorByAuthor(authorId);
 			return new ResponseEntity<List<Book>>(books,HttpStatus.OK);
 		}catch(SQLException e) {
-			return new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<Book>>(HttpStatus.NOT_FOUND);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<List<Book>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@RequestMapping(path="/Admin/authors/{authorId}/Books/{bookId}", method = {RequestMethod.POST,RequestMethod.PUT})
-	public ResponseEntity<Object>addToBookAuthor(@RequestBody Author author, @RequestBody Book book){
+	@RequestMapping(path="/admin/authors/{authorId}/books/{bookId}", method = {RequestMethod.POST,RequestMethod.PUT})
+	public ResponseEntity<Object>addToBookAuthor(@PathVariable int authorId, @PathVariable int bookId){
 		try {
-			authorService.addBookToAuthor(author, book);
-			return new ResponseEntity<Object>(book,HttpStatus.ACCEPTED);
+			authorService.addBookToAuthor(authorId, bookId);
+			return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
 		}catch(SQLException e) {
 			return new ResponseEntity<Object>(HttpStatus.CONFLICT);
 		} catch (ClassNotFoundException e) {
@@ -123,16 +123,16 @@ public class AuthorController {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@RequestMapping(path="/Admin/authors/{authorId}/Books/{bookId}", method = {RequestMethod.DELETE})
-	public ResponseEntity<Object>deleteBookAuthor(@RequestBody Author author, @RequestBody Book book){
+	@RequestMapping(path="/admin/authors/{authorId}/books/{bookId}", method = {RequestMethod.DELETE})
+	public ResponseEntity<Object>deleteBookAuthor(@PathVariable int authorId, @PathVariable int bookId){
 		try {
-			authorService.deleteBookFromAuthor(author, book);
-			return new ResponseEntity<Object>(book,HttpStatus.OK);
+			authorService.deleteBookFromAuthor(authorId, bookId);
+			return new ResponseEntity<Object>(HttpStatus.OK);
 		}catch(SQLException e) {
-			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

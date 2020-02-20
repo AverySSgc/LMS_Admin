@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.SS.library.Entity.Author;
-import com.SS.library.Entity.Book;
+
 
 @Component
 public class AuthorDAO extends DAO <Author> {
@@ -54,8 +54,8 @@ public class AuthorDAO extends DAO <Author> {
     }
 
     @Override
-    public void delete(Author object,Connection conn) throws SQLException {
-        save("delete from tbl_author where authorID = ?", new Object[]{object.getAuthorID()},conn);
+    public void delete(int id,Connection conn) throws SQLException {
+        save("delete from tbl_author where authorID = ?", new Object[]{id},conn);
     }
 
     @Override
@@ -63,12 +63,12 @@ public class AuthorDAO extends DAO <Author> {
         return read("select * from tbl_author", null,conn);
     }
 
-    public void addToBookAuthor(Author author, Book book,Connection conn) throws SQLException {
-        save("Insert into tbl_book_authors (bookId, authorId) values (?,?)", new Object[]{book.getBookId(),author.getAuthorID()},conn);
+    public void addToBookAuthor(int author, int book,Connection conn) throws SQLException {
+        save("Insert into tbl_book_authors (bookId, authorId) values (?,?)", new Object[]{book,author},conn);
     }
     
-    public void deleteBookAuthor(Author author, Book book,Connection conn) throws SQLException {
-    	save("delete from tbl_book_authors where authorId = ? and bookId = ?", new Object[] {author.getAuthorID(),book.getBookId()},conn);
+    public void deleteBookAuthor(int author, int book,Connection conn) throws SQLException {
+    	save("delete from tbl_book_authors where authorId = ? and bookId = ?", new Object[] {author,book},conn);
     }
 
     public Author readByID(int id,Connection conn) throws SQLException{

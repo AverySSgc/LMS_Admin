@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("prototype")
 public class ConnectUtil {
     private String driver= "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://localhost:3306/library";
+    private String url = "jdbc:mysql://localhost:3306/library?useSSL=false&allowPublicKeyRetrieval=true";
     private String username = "root";
     private String password = "password";
 //    private Connection conn =null;

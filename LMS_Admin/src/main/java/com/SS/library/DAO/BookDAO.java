@@ -85,8 +85,8 @@ public class BookDAO extends DAO<Book> {
     }
 
     @Override
-    public void delete(Book object,Connection conn) throws SQLException {
-        save("delete from tbl_book where bookId = ?", new Object[]{object.getBookId()},conn);
+    public void delete(int id,Connection conn) throws SQLException {
+        save("delete from tbl_book where bookId = ?", new Object[]{id},conn);
     }
 
     @Override
