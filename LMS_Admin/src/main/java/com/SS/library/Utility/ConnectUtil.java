@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 public class ConnectUtil {
     private String driver= "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://localhost:3306/library?useSSL=false&allowPublicKeyRetrieval=true";
+    private String url = "jdbc:mysql://192.168.1.12/library?useSSL=false&allowPublicKeyRetrieval=true";
     private String username = "root";
     private String password = "password";
 //    private Connection conn =null;
